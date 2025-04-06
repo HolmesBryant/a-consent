@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>A-Consent Web Component</title>
+	<script>window.gtagTrackingId = 'G-LD47SL64WJ'</script>
+	<script defer type="module" src="src/a-consent.js"></script>
+	<script defer src="extra/scripts.js"></script>
+	<script type="module" src="extra/ATestRunner.js"></script>
+
+	<link rel="stylesheet" href="extra/styles.css">
+	<style>
+		#demo {
+			position: relative;
+		}
+
+		a-consent {
+			margin: 0 auto;
+			width: 400px;
+		}
+
+		a-consent-edit {
+			--text-color: orange;
+		}
+	</style>
+</head>
+<body>
+	<h1>A-Consent Web Component</h1>
+	<p>A custom element for displaying a dialog box allowing the user to grant or deny consent to use their data for analytics or advertising purposes: <a href="https://github.com/HolmesBryant/a-code">Github Repo</a></p>
+	<p>This component interfaces with Google Analytics.</p>
+
+	<details>
+	<summary>README</summary>
+		<div id="instructions"> </div>
+	</details>
+
+	<h2>Demo</h2>
+
+	<section id="demo">
+		<!-- <a-testrunner file="src/a-consent.js" all console></a-testrunner> -->
+		<div class="row center">
+			<button id="reload-page">Reload</button>
+			<button id="reset-consent">Reset</button>
+		</div>
+		<a-consent effect="explode" analytics>
+			<noscript>This user consent widget requires javascript in order to function.</noscript>
+		</a-consent>
+		<a-consent-edit></a-consent-edit>
+	</section>
+
+	<script>
+		const reloadBtn = document.querySelector('#reload-page');
+		const resetBtn = document.querySelector('#reset-consent');
+		reloadBtn.addEventListener('click', () => { location.reload() });
+		resetBtn.addEventListener('click', (event) => {
+			const elem = document.querySelector('a-consent') || document.createElement('a-consent');
+			elem.resetConsent();
+			location.reload();
+		});
+	</script>
+</body>
+</html>

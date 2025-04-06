@@ -1,0 +1,31 @@
+{
+  "name": "A Consent",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A web component that displays a dialog allowing the user to grant or deny the site (and Google) to use their data for analytics and advertising purposes",
+  "main": "a-consent.js",
+  "license": "GPL-3.0-or-later",
+  "author": "Holmes Bryant <webmaastaa@gmail.com>",
+  "homepage": "https://github.com/HolmesBryant/a-consent",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HolmesBryant/a-consent.git"
+  },
+  "keywords": [
+    "module",
+    "component",
+    "GDPR"
+  ],
+  "bugs": {
+    "url": "https://github.com/HolmesBryant/a-consent/issues"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "browser-sync start --server --files \"src/*.*\""
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "browser-sync": "^3.0.3",
+    "rollup": "^2.79.2"
+  }
+}

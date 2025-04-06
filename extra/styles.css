@@ -1,0 +1,171 @@
+body {
+	--bg1-color: rgb(250, 250, 250);
+	--bg2-color: #f2f2f2;
+	--bg3-color: white;
+	--accent-color: floralwhite;
+	--border-color: silver;
+	--text-color: dimgray;
+
+  background: var(--bg1-color);
+  color: var(--text-color);
+	font-family: sans-serif;
+	font-size: 16px;
+  height: 100%;
+  letter-spacing: .1rem;
+  line-height: 1.5rem;
+  margin: auto;
+	max-width: 1024px;
+	padding: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+    --bg1-color: rgb(20, 20, 20);
+		--bg2-color: rgb(40,40,40);
+		--bg3-color: rgb(60, 60, 60);
+		--accent-color: orange;
+		--border-color: dimgray;
+		--text-color: rgb(240, 240, 240);
+	}
+}
+
+@media (max-width: 300px) {
+	* { padding: 0; }
+}
+
+/**** Backgrounds ****/
+
+	section,
+  summary
+  { background-color: var(--bg2-color) }
+
+	button
+	{ background-color: var(--bg3-color) }
+
+  button:hover,
+  button.active-tab,
+  summary:hover,
+  details[open] > summary
+  { background-color: var(--accent-color) }
+
+  button:active {
+  	background-color: initial;
+  }
+
+/**** Borders ****/
+
+	button,
+	details
+	{ border: 1px solid var(--border-color); }
+
+  article,
+  details,
+  section,
+  summary
+  { border-radius: .5rem; }
+
+  wijit-tabs button
+  { border-radius: .5rem .5rem 0 0 }
+
+/**** Text ****/
+
+	a
+	{ color: var(--accent-color) }
+
+	button
+	{ color: var(--text-color) }
+
+	button.active-tab
+	{
+		font-size: larger;
+		font-weight: bold;
+	}
+
+	summary
+	{
+		font-size: x-large;
+		font-weight: bold;
+	}
+
+/**** Cursor ****/
+	button,
+	summary
+	{ cursor: pointer; }
+
+/**** Structure ****/
+	button {
+		padding: .5rem;
+	}
+
+	details
+	{ overflow: auto; }
+
+	details[open]
+	{ height: 80vh; }
+
+	details[open] > summary
+	{ margin-bottom: 1rem; }
+
+	div
+	{ align-items: center; }
+
+	fieldset > wijit-code
+    { width: 100%; }
+
+	h2
+	{ margin-left: 1rem; }
+
+	header
+	{ flex: 0; }
+
+	li
+	{ margin-bottom: 1rem; }
+
+	ul, ol
+	{ margin: 0; }
+
+	section {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		gap: 1rem;
+		margin: 0 auto 1rem auto;
+		padding: 1rem;
+	}
+
+	section > * {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+
+	summary {
+		padding: 1rem;
+		position: sticky;
+		top: 0;
+		z-index: 1;
+	}
+
+	.row {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		overflow: auto;
+	}
+
+	.row.center {
+		justify-content: center;
+	}
+
+	.sticky {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+	}
+
+	#instructions {
+		padding: 1rem;
+		text-indent: 3em;
+		white-space:pre-wrap;
+	}
+
