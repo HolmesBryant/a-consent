@@ -16,8 +16,6 @@ export default class ATestRunner {
 
   onlyFailed = false;
 
-  // #file;
-
   /**
    * @private
    * @description What order to print test results, "asc" or "desc". Has public getter/setter. Only matters if #output is not "console".
@@ -63,8 +61,9 @@ export default class ATestRunner {
 
   totalTests = 0;
 
-  constructor(filePath = null) {
+  constructor(filePath = null, output) {
     this.filePath = filePath;
+    if (output) this.output = output;
     this.A = new A();
     if (filePath === null) return this.A._init(this);
   }
@@ -397,6 +396,9 @@ export default class ATestRunner {
     }
     let msg, result, expected, mod, passing = true;
     let a = this.A;
+
+    // a.mod is for convenience, so you can write `a.mod = new MyClass()` then later `mod.someMethod()` instead of `a.classInstance.someMethod()`
+    // However `a.classInstance = new MyClass()` and `a.classInstance.someMethod()` also works.
     a.mod = null;
 
     for (const test of this.tests) {
@@ -635,21 +637,21 @@ class A {
    * @throws {Error}                                    - Throws an error on timeout.
    * @returns {Promise<true>}                           - A Promise that resolves with `true` when the condition is met. Rejects if whenExpression throws/rejects, or if the timeout is reached.
    */
-async when(whenExpression, { checkIntervalMs = 500, timeoutMs = 2000 } = {}) {
-  const startTime = Date.now();
-  while (true) {
-    if (timeoutMs !== null && (Date.now() - startTime) >= timeoutMs) {
-      throw new Error(`when() timed out after ${timeoutMs}ms waiting for condition to be true`);
+  async when(whenExpression, { checkIntervalMs = 500, timeoutMs = 2000 } = {}) {
+    const startTime = Date.now();
+    while (true) {
+      if (timeoutMs !== null && (Date.now() - startTime) >= timeoutMs) {
+        throw new Error(`when() timed out after ${timeoutMs}ms waiting for condition to be true`);
+      }
+
+      const conditionResult = await whenExpression();
+      if (conditionResult === true) return true;
+
+      // Condition not met, wait
+      await this.delay(checkIntervalMs);
+      // Loop continues...
     }
-
-    const conditionResult = await whenExpression();
-    if (conditionResult === true) return true;
-
-    // Condition not met, wait
-    await this.delay(checkIntervalMs);
-    // Loop continues...
   }
-}
 
   /**
    * @description Checks if multiple custom elements are defined.
@@ -795,7 +797,7 @@ export class TestRunnerComponent extends HTMLElement {
   async connectedCallback() {
     this.summary = this.shadowRoot.querySelector('summary');
     this.tester = new ATestRunner(this.file);
-    this.tester.output = this.console ? 'console' : this.shadowRoot.querySelector('#tests');
+    this.tester.output = this.shadowRoot.querySelector('#tests');
     this.tester.onlyFailed = !this.all;
     this.tester.pauseOnFail = this.pause;
     this.tester.order = this.order;
@@ -877,7 +879,7 @@ export class TestRunnerComponent extends HTMLElement {
 
   get order() { return this.#order; }
   set order(value) {
-    if (value === "asc" || value === "desc") this.#order = order;
+    if (value === "asc" || value === "desc") this.#order = value;
   }
 
   get pause() { return this.#pause; }
@@ -893,4 +895,4 @@ export class TestRunnerComponent extends HTMLElement {
   }
 }
 
-customElements.define('a-testrunner', TestRunnerComponent);
+customElements.define('test-runner', TestRunnerComponent);

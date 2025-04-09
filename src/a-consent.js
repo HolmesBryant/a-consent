@@ -51,6 +51,7 @@ if (window.gtagTrackingId) {
  */
 
 export default class AConsent extends HTMLElement {
+  #debug = true;
 
   //////// ATTRIBUTES ////////
 
@@ -204,7 +205,6 @@ export default class AConsent extends HTMLElement {
    * @static
    * @type {string}
    */
-   */
   static storageKey = 'user_consent_preferences';
 
   /**
@@ -229,6 +229,15 @@ export default class AConsent extends HTMLElement {
         opacity: 1;
         width: max-content;
         transition: opacity .3s ease-out;
+      }
+
+      button {
+        background: var(--accent-color);
+        border: 1px solid var(--border-color);
+        border-radius: 3px;
+        color: var(--accent-text);
+        cursor: pointer;
+        min-height: var(--min);
       }
 
       input:disabled {
@@ -319,12 +328,6 @@ export default class AConsent extends HTMLElement {
       }
 
       #submit-input {
-        background: var(--accent-color);
-        border: 1px solid var(--border-color);
-        border-radius: 3px;
-        color: var(--accent-text);
-        cursor: pointer;
-        min-height: var(--min);
         width: 100%;
       }
 
@@ -342,7 +345,7 @@ export default class AConsent extends HTMLElement {
     <main>
       <slot name="title"><strong>Data Consent</strong></slot>
       <slot name="description">
-        <p>Please allow us to store some cookies on your computer as outlined in our privacy policy.</p>
+        <p>Please allow us to store some cookies on your computer.</p>
       </slot>
 
       <form onsubmit="return false">
@@ -635,12 +638,11 @@ export default class AConsent extends HTMLElement {
    * @returns {Promise<void>} A promise that resolves when the transition ends and the element is removed.
    */
   fadeElement(element) {
-    const abortController = new AbortController();
-    element.style.opacity = 0;
     element.addEventListener('transitionend', event => {
-      abortController.abort();
       element.remove();
-    }, {signal: abortController.signal});
+    }, { once: true });
+
+    element.style.opacity = 0;
   }
 
   /**
@@ -751,7 +753,7 @@ export default class AConsent extends HTMLElement {
    */
   processInput(event) {
     if (event instanceof Event === false) throw new TypeError("0x00007FF723010001");
-    if (!event.isTrusted) throw new DOMException("0x00007FF723010002", 'SecurityError');
+    if (!event.isTrusted && this.#debug === false) throw new DOMException("0x00007FF723010002", 'SecurityError');
     const elem = event.target;
 
     if (event.isTrusted && elem.type !== 'radio') {
@@ -833,7 +835,7 @@ export default class AConsent extends HTMLElement {
   async submitChoices(event) {
     event.preventDefault();
     if (event instanceof Event === false) throw new TypeError("0x00007FF723010003");
-    if (!event.isTrusted) throw new DOMException("0x00007FF723010004", 'SecurityError');
+    if (!event.isTrusted && this.#debug === false) throw new DOMException("0x00007FF723010004", 'SecurityError');
     await this.#updateConsent(this.choices(), window.gtag);
     if (this.effect === 'fade') {
       this.fadeElement(this);
@@ -890,8 +892,7 @@ export default class AConsent extends HTMLElement {
     switch (value) {
       case false:
       case 'false':
-        // Setting grantAll to false doesn't automatically deny everything,
-        // it just means the "Grant All" option itself isn't the source of truth.
+        // Setting grantAll to false doesn't automatically deny everything, it just means the "Grant All" option itself isn't the source of truth.
         this.#grantAll = false;
         break;
       default:
@@ -918,6 +919,7 @@ export default class AConsent extends HTMLElement {
     switch (value) {
     case false:
     case 'false':
+      // Setting denyAll to false doesn't automatically grant everything, it just means the "Deny All" option itself isn't the source of truth.
       this.#denyAll = false;
       break;
     default:
@@ -1134,9 +1136,13 @@ export class AConsentEdit extends HTMLElement {
   static template = `
     <style>
       :host {
+        --bg-color: hsl(0, 0%, 95%);
+        --text-color: hsl(0, 0%, 15%);
+        --border-color: hsl(0, 0%, 75%);
         --accent-color: dodgerblue;
         --accent-text: white;
         --min: 35px;
+        --font-size: small;
       }
 
       a { color: var(--accent-color); }
@@ -1144,6 +1150,7 @@ export class AConsentEdit extends HTMLElement {
       button {
         border-radius: 10px;
         border: 1px solid var(--border-width);
+        cursor: pointer;
         height: var(--min);
         width: var(--min);
         font-size: var(--min);
@@ -1152,7 +1159,9 @@ export class AConsentEdit extends HTMLElement {
       }
 
       button:hover {
+        background: var(--accent-color);
         box-shadow: 1px 1px 2px black;
+        color: var(--accent-text);
       }
 
       button:active {
@@ -1188,7 +1197,7 @@ export class AConsentEdit extends HTMLElement {
       }
     </style>
     <a href="#" id="edit-link">
-      <slot>Change your data-consent preferences.</slot>
+      <slot>Change your cookie preferences.</slot>
     </a>
     <dialog class="fade" id="edit-dialog">
       <button id="close">✖</button>

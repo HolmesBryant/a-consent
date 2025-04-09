@@ -12,7 +12,7 @@
     "url": "git+https://github.com/HolmesBryant/a-consent.git"
   },
   "keywords": [
-    "module",
+    "javascript",
     "component",
     "GDPR"
   ],
@@ -21,11 +21,12 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "browser-sync start --server --files \"src/*.*\""
+    "dev": "browser-sync start --server --files \"src/*.*\"",
+    "test": "browser-sync start --server --files \"src/*.*\" --index ./tests/index.html"
   },
   "devDependencies": {
+    "rollup": "^2.79.2",
     "@rollup/plugin-terser": "^0.4.4",
-    "browser-sync": "^3.0.3",
-    "rollup": "^2.79.2"
+    "browser-sync": "^3.0.3"
   }
 }

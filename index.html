@@ -4,10 +4,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>A-Consent Web Component</title>
-	<script>window.gtagTrackingId = 'G-LD47SL64WJ'</script>
-	<script defer type="module" src="src/a-consent.js"></script>
+	<script>window.gtagTrackingId = 'G-XXXXXXXXXX'</script>
+	<!-- <script defer type="module" src="src/a-consent.js"></script> -->
+	<script defer type="module" src="dist/a-consent.min.js"></script>
 	<script defer src="extra/scripts.js"></script>
-	<script type="module" src="extra/ATestRunner.js"></script>
 
 	<link rel="stylesheet" href="extra/styles.css">
 	<style>
@@ -16,18 +16,19 @@
 		}
 
 		a-consent {
+			--accent-color: orange;
 			margin: 0 auto;
 			width: 400px;
 		}
 
 		a-consent-edit {
-			--text-color: orange;
+			--accent-color: orange;
 		}
 	</style>
 </head>
 <body>
 	<h1>A-Consent Web Component</h1>
-	<p>A custom element for displaying a dialog box allowing the user to grant or deny consent to use their data for analytics or advertising purposes: <a href="https://github.com/HolmesBryant/a-code">Github Repo</a></p>
+	<p>A custom element for displaying a dialog box allowing the user to grant or deny consent to use their data for analytics or advertising purposes: <a href="https://github.com/HolmesBryant/a-consent">Github Repo</a></p>
 	<p>This component interfaces with Google Analytics.</p>
 
 	<details>
@@ -46,8 +47,11 @@
 		<a-consent effect="explode" analytics>
 			<noscript>This user consent widget requires javascript in order to function.</noscript>
 		</a-consent>
-		<a-consent-edit></a-consent-edit>
 	</section>
+
+	<footer>
+		<a-consent-edit></a-consent-edit>
+	</footer>
 
 	<script>
 		const reloadBtn = document.querySelector('#reload-page');

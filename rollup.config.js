@@ -1,9 +1,9 @@
 import terser from '@rollup/plugin-terser';
 
 export default {
-  input: 'src/[file].js',
+  input: 'src/a-consent.min.js',
   output: {
-    file: 'dist/[file].min.js',
+    file: 'dist/a-consent.min.js',
     format: 'es',
     sourcemap: false,
   },

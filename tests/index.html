@@ -1,47 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AConsent Unit Tests</title>
+	<meta charset="utf-8">
+	<title>A-Consent Tests</title>
+    <script defer type="module" src="tests/tests.js"></script>
     <style>
-        body { font-family: sans-serif; }
-        #test-container {
-            border: 1px dashed #ccc;
-            padding: 10px;
-            margin-top: 20px;
-            min-height: 50px;
-        }
-        /* Basic styling for components during tests if needed */
-        a-consent { display: block; margin-bottom: 10px; border: 1px solid lightblue; }
-        a-consent-edit { display: inline-block; border: 1px solid lightgreen; padding: 5px; }
+      div {
+        border-top: 1px solid gray;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        overflow-y: clip;
+        overflow-x: auto;
+      }
+
+      div.pass {
+        background-color: lightgreen;
+        color: black;
+      }
+
+      div.fail {
+        background-color: salmon;
+        color: black;
+      }
+
+      div.error {
+        background: darkred;
+        color: white;
+      }
+
+      span::after {
+      	content: " |";
+      }
     </style>
 </head>
 <body>
-    <h1>AConsent & AConsentEdit Unit Tests</h1>
-    <p>Check the browser's developer console for test results.</p>
-
-    <!-- Container for appending elements during tests -->
-    <div id="test-container"></div>
-
-    <!-- IMPORTANT: Include your component script FIRST -->
-    <!-- Adjust the path as necessary -->
-    <script type="module">
-        // Assuming your code is structured as modules and exports the classes
-        import AConsent, { AConsentEdit } from './your-script.js';
-        // Make them globally available for the tests OR adjust tests to import
-        window.AConsent = AConsent;
-        window.AConsentEdit = AConsentEdit;
-
-        // If your script is NOT a module and defines classes globally:
-        // <script src="your-script.js"></script>
-    </script>
-
-    <!-- Include the Test Runner -->
-    <script src="test-runner.js"></script>
-
-    <!-- Include the Tests -->
-    <script src="tests.js"></script>
-
+	<h1>A-Consent Tests</h1>
+	<output id="tests"></output>
 </body>
-</html>
+
