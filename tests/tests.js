@@ -149,7 +149,7 @@ const simulateGtagScriptLoad = () => {
 
     resetTestEnvironment();
     consentEl = document.createElement('a-consent');
-    // ... (rest of Test 2 setup and assertions remain the same) ...
+
     consentEl.remove();
 
 
@@ -164,10 +164,9 @@ const simulateGtagScriptLoad = () => {
 
     consentEl.shadowRoot.querySelector('#consent-all').click();
     await a.delay(50);
-    // ... (Grant All interaction assertions) ...
 
     consentEl.shadowRoot.querySelector('#submit-input').click();
-    await a.delay(500); // Allow submitChoices async + fade/explode
+    await a.delay(500);
 
     // Grant All submission assertions - CHECKING THE MOCK LOCAL STORAGE NOW
     await a.test("AConsent Submit (Grant All): localStorage is set", !!localStorage.getItem(AConsent.storageKey), true); // Calls the mocked getItem
@@ -185,15 +184,12 @@ const simulateGtagScriptLoad = () => {
     document.body.appendChild(consentEl);
     await a.delay(50);
 
-    // ... (Deny All setup assertions) ...
     consentEl.shadowRoot.querySelector('#deny-all').click();
     await a.delay(50);
 
-    // ... (Deny All interaction assertions) ...
     consentEl.shadowRoot.querySelector('#submit-input').click();
     await a.delay(500);
 
-    // ... (Deny All submission assertions) ...
     await a.test("AConsent Submit (Deny All): localStorage is set", !!localStorage.getItem(AConsent.storageKey), true); // Mocked
     let storedDataDeny = JSON.parse(localStorage.getItem(AConsent.storageKey) || '{}'); // Mocked
     await a.test("AConsent Submit (Deny All): localStorage has analytics_storage 'denied'", storedDataDeny.analytics_storage, 'denied');
@@ -209,16 +205,13 @@ const simulateGtagScriptLoad = () => {
     document.body.appendChild(consentEl);
     await a.delay(50);
 
-    // ... (Custom interaction assertions) ...
     consentEl.shadowRoot.querySelector('#analytics-storage').click();
     consentEl.shadowRoot.querySelector('#ad-personalization').click();
     await a.delay(50);
-    // ...
 
     consentEl.shadowRoot.querySelector('#submit-input').click();
     await a.delay(500);
 
-    // ... (Custom submission assertions) ...
     let storedDataCustom = JSON.parse(localStorage.getItem(AConsent.storageKey) || '{}'); // Mocked
     await a.test("AConsent Submit (Custom): localStorage has analytics_storage 'granted'", storedDataCustom.analytics_storage, 'granted');
     await a.test("AConsent Submit (Custom): localStorage has ad_personalization 'granted'", storedDataCustom.ad_personalization, 'granted');
@@ -226,6 +219,7 @@ const simulateGtagScriptLoad = () => {
 
 
     // Test 6: Load from localStorage
+
     resetTestEnvironment();
     window.gtagTrackingId = 'G-LOADLS';
     simulateGtagScriptLoad();
@@ -250,8 +244,8 @@ const simulateGtagScriptLoad = () => {
     // Check that the mock store still contains the item (it wasn't cleared by the component logic)
     await a.test("AConsent Load: Mock store still contains item after load", !!localStorage.getItem(AConsent.storageKey), true);
 
-
     // Test 7: Load from localStorage with `force` attribute
+
     resetTestEnvironment();
     window.gtagTrackingId = 'G-FORCE';
     simulateGtagScriptLoad();
@@ -271,6 +265,7 @@ const simulateGtagScriptLoad = () => {
     a.info("--- Testing AConsentEdit Component ---");
 
     // Test 8: AConsentEdit basic setup and link click
+
     resetTestEnvironment();
     window.gtagTrackingId = 'G-EDIT';
     simulateGtagScriptLoad();
@@ -278,23 +273,19 @@ const simulateGtagScriptLoad = () => {
     document.body.appendChild(editEl);
     await a.delay(50);
 
-    // ... (Edit setup assertions) ...
-
     editEl.shadowRoot.querySelector('#edit-link').click();
     await a.delay(100);
 
-    // ... (Edit interaction assertions) ...
-
     // Test 9: AConsentEdit close button
+
     // Continuing from Test 8 state
     editEl.shadowRoot.querySelector('#close').click();
     await a.delay(400);
 
-    // ... (Edit close assertions) ...
     editEl.remove();
 
-
     // Test 10: AConsentEdit submitting inner form closes dialog
+
     resetTestEnvironment();
     window.gtagTrackingId = 'G-EDITSUBMIT';
     simulateGtagScriptLoad();
@@ -322,11 +313,9 @@ const simulateGtagScriptLoad = () => {
     innerConsentElSubmit.shadowRoot.querySelector('#submit-input').click();
     await a.delay(400);
 
-    // ... (Edit submission assertions) ...
     await a.test("AConsentEdit Interaction (Submit): localStorage was updated (analytics granted)", JSON.parse(localStorage.getItem(AConsent.storageKey) || '{}').analytics_storage, 'granted');
 
     editEl.remove();
-
 
     // --- END OF TESTS ---
     a.info("--- Consent Widget Tests Complete ---");
